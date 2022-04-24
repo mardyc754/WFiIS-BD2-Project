@@ -9,11 +9,9 @@ namespace ConnectingToSQLServer
         {
             Console.WriteLine("Getting Connection ...");
 
-            //your connection string 
             string connectionString = @"Data Source=X240\SQLEXPRESS;Initial Catalog = AdventureWorks2016;Integrated Security = True;";
-            //create instanace of database connection
+           
             SqlConnection conn = new SqlConnection(connectionString);
-
 
             try
             {
