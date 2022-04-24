@@ -1,0 +1,7 @@
+D:\Zestawy\6 sem\Bazy\Projekt\WFiIS-BD2-Project\Project\bin\Debug\Project.exe.config
+D:\Zestawy\6 sem\Bazy\Projekt\WFiIS-BD2-Project\Project\bin\Debug\Project.exe
+D:\Zestawy\6 sem\Bazy\Projekt\WFiIS-BD2-Project\Project\bin\Debug\Project.pdb
+D:\Zestawy\6 sem\Bazy\Projekt\WFiIS-BD2-Project\Project\obj\Debug\Project.csproj.AssemblyReference.cache
+D:\Zestawy\6 sem\Bazy\Projekt\WFiIS-BD2-Project\Project\obj\Debug\Project.csproj.CoreCompileInputs.cache
+D:\Zestawy\6 sem\Bazy\Projekt\WFiIS-BD2-Project\Project\obj\Debug\Project.exe
+D:\Zestawy\6 sem\Bazy\Projekt\WFiIS-BD2-Project\Project\obj\Debug\Project.pdb
