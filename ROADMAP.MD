@@ -12,7 +12,8 @@ z dokumentami XML. Po ich utworzeniu wystarczy,
  2. Wyszukiwanie produktów po nazwie
  3. Wyszukiwanie produktów wegetariańskich
  4. Wyszukiwanie po rozmiarze produktu
- 5. Wyszukiwanie produktu po kryterium ceny (w przypadku znalezienia kilku rozmiarów, wypisywane są wszystkie spełniające kryteria dlatego też dla mnie dużo prościej byłoby utworzyć tag price z atrybutem type)
+ 5. Wyszukiwanie produktu po kryterium ceny (w przypadku znalezienia kilku rozmiarów, 
+	wypisywane są wszystkie spełniające kryteria dlatego też dla mnie dużo prościej byłoby utworzyć tag price z atrybutem type)
     1. niższa,
     2. wyższa,
     3. z zadanego przedziału
