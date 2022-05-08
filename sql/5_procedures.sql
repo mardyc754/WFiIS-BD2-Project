@@ -305,3 +305,100 @@ BEGIN
 			RAISERROR ('Cena za du¿y rozmiar musi byæ wiêksza od ceny za œredni rozmiar', 1, 1 );
 END
 GO
+
+/* Modyfikuje nazwê kategorii */
+CREATE PROCEDURE dbo.modifyCategoryName(@newName nvarchar(100), @categoryID int) 
+AS
+BEGIN
+	DECLARE @xml xml;
+	SET @xml = (SELECT * FROM dbo.ProjectXML);
+
+	UPDATE projXML 
+	SET menuXML.modify(N'replace value of 
+	(/Menu/Category[@id=sql:variable("@categoryID")]/@name)[1] 
+	with (sql:variable("@newName"))') FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
+END
+GO
+
+/* Modyfikuje nazwê produktu */
+CREATE PROCEDURE dbo.modifyProductName(@newName nvarchar(max), @productID int) 
+AS
+BEGIN
+	DECLARE @xml xml;
+	SET @xml = (SELECT * FROM dbo.ProjectXML);
+
+	DECLARE @oldName nvarchar(max);
+	SET @oldName = (SELECT name from dbo.getAllProductsWithCategories(@xml) WHERE productID = @productID);
+	UPDATE projXML 
+	SET menuXML.modify(N'replace value of 
+	(./Menu/Category/Product[@id=sql:variable("@productID")]/Name/text())[1] with sql:variable("@newName")') 
+	FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
+END
+GO
+
+/* Modyfikuje cenê za ma³y rozmiar */
+CREATE PROCEDURE dbo.modifyProductPriceSmall(@newPriceSmall money, @productID int) 
+AS
+BEGIN
+	DECLARE @xml xml;
+	SET @xml = (SELECT * FROM dbo.ProjectXML);
+
+	DECLARE @priceMedium money;
+	SET @priceMedium = (SELECT priceMedium from dbo.getAllProductsWithCategories(@xml) WHERE productID = @productID);
+
+	IF (@newPriceSmall >= @priceMedium)
+		RAISERROR ('Cena za ma³y rozmiar musi byæ mniejsza od ceny za œredni rozmiar', 1, 1 );
+
+	UPDATE projXML 
+	SET menuXML.modify(N'replace value of 
+	(./Menu/Category/Product[@id=sql:variable("@productID")]/Prices/PriceSmall/text())[1] with sql:variable("@newPriceSmall")') 
+	FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
+END
+GO
+
+/* Modyfikuje cenê za œredni rozmiar */
+CREATE PROCEDURE dbo.modifyProductPriceMedium(@newPriceMedium money, @productID int) 
+AS
+BEGIN
+	DECLARE @xml xml;
+	SET @xml = (SELECT * FROM dbo.ProjectXML);
+
+	DECLARE @priceSmall money, @priceLarge money;
+	SELECT @priceSmall = (priceSmall), @priceLarge = (priceLarge) from dbo.getAllProductsWithCategories(@xml) WHERE productID = @productID;
+
+	IF (@priceLarge IS NOT NULL AND @priceSmall IS NOT NULL AND 
+		(@newPriceMedium >= @priceLarge OR @newPriceMedium <= @priceSmall))
+		RAISERROR (N'Cena za œredni rozmiar musi byæ wiêksza od ceny za ma³y rozmiar oraz mniejsza od ceny za du¿y rozmiar', 1, 1 );
+	
+	IF (@priceSmall IS NOT NULL AND @priceLarge IS NULL AND (@newPriceMedium <= @priceSmall))
+		RAISERROR (N'Cena za œredni rozmiar musi byæ wiêksza od ceny za ma³y rozmiar', 1, 1 );
+
+	IF (@priceLarge IS NOT NULL AND @priceSmall IS NULL AND (@newPriceMedium >= @priceLarge))
+		RAISERROR (N'Cena za œredni rozmiar musi byæ mniejsza od ceny za du¿y rozmiar', 1, 1 );
+	
+	UPDATE projXML 
+	SET menuXML.modify(N'replace value of 
+	(./Menu/Category/Product[@id=sql:variable("@productID")]/Prices/PriceMedium/text())[1] with sql:variable("@newPriceMedium")') 
+	FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
+END
+GO
+
+/* Modyfikuje cenê za du¿y rozmiar */
+CREATE PROCEDURE dbo.modifyProductPriceLarge(@newPriceLarge money, @productID int) 
+AS
+BEGIN
+	DECLARE @xml xml;
+	SET @xml = (SELECT * FROM dbo.ProjectXML);
+
+	DECLARE @priceMedium money;
+	SET @priceMedium = (SELECT priceMedium from dbo.getAllProductsWithCategories(@xml) WHERE productID = @productID);
+
+	IF (@newPriceLarge <= @priceMedium)
+		RAISERROR ('Cena za du¿y rozmiar musi byæ wiêksza od ceny za œredni rozmiar', 1, 1 );
+
+	UPDATE projXML 
+	SET menuXML.modify(N'replace value of 
+	(./Menu/Category/Product[@id=sql:variable("@productID")]/Prices/PriceLarge/text())[1] with sql:variable("@newPriceLarge")') 
+	FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
+END
+GO
