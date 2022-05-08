@@ -402,3 +402,48 @@ BEGIN
 	FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
 END
 GO
+
+/* usuwa cenê za najwiêkszy rozmiar */
+CREATE PROCEDURE dbo.deleteProductPriceLarge(@productID int) AS
+BEGIN
+	UPDATE projXML 
+	SET menuXML.modify(N'delete (/Menu/Category/Product[@id=sql:variable("@productID")]/Prices/PriceLarge)[1]') 
+	FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
+END
+GO
+
+/* usuwa cenê za najmniejszy rozmiar */
+CREATE PROCEDURE dbo.deleteProductPriceSmall(@productID int) AS
+BEGIN
+	UPDATE projXML 
+	SET menuXML.modify(N'delete (/Menu/Category/Product[@id=sql:variable("@productID")]/Prices/PriceSmall)[1]') 
+	FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
+END
+GO
+
+/* usuwa produkt o podanym ID */
+CREATE PROCEDURE dbo.deleteProduct(@productID int) AS
+BEGIN
+	UPDATE projXML 
+	SET menuXML.modify(N'delete (/Menu/Category/Product[@id=sql:variable("@productID")])[1]') 
+	FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
+END
+GO
+
+/* usuwa kategoriê o podanym ID */
+CREATE PROCEDURE dbo.deleteCategory(@productID int) AS
+BEGIN
+	UPDATE projXML 
+	SET menuXML.modify(N'delete (/Menu/Category[@id=sql:variable("@productID")])[1]') 
+	FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
+END
+GO
+
+/* usuwa ca³e menu */
+CREATE PROCEDURE dbo.deleteMenu AS
+BEGIN
+	UPDATE projXML 
+	SET menuXML.modify(N'delete (/Menu/*)') 
+	FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
+END
+GO

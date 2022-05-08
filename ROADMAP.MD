@@ -107,9 +107,9 @@ Aby aplikacja zyskała na UX, należy po każdej komendzie czyścić konsolę.
 
 ## VI. Postępy
 
-| Etap projektu           | Część sqlowa              | Część C#                 |
-| ----------------------- | -----------               | ------------------------ |
-| I. Wyszukiwanie         | :white_check_mark: Done   |  :clock4: Waiting        |
-| II. Wstawianie do bazy  | :white_check_mark: Done   |  :clock4: Waiting        |
-| III. Modyfikacja bazy   | :white_check_mark: Done   |  :clock4: Waiting        |
-| IV. Usuwanie z bazy     | :point_right: In progress |  :clock4: Waiting        |
+| Etap projektu           | Część sqlowa              | Część C#                 	|
+| ----------------------- | ------------------------- | ---------------------------	|
+| I. Wyszukiwanie         | :white_check_mark: Done   |  :point_right: In progress  |
+| II. Wstawianie do bazy  | :white_check_mark: Done   |  :clock4: Waiting        	|
+| III. Modyfikacja bazy   | :white_check_mark: Done   |  :clock4: Waiting        	|
+| IV. Usuwanie z bazy     | :white_check_mark: Done   |  :clock4: Waiting        	|
