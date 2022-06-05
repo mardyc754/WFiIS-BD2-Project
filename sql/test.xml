@@ -1,49 +1,45 @@
--- SELECT * from dbo.ProjectXML;
-TRUNCATE TABLE dbo.ProjectXML;
-
-INSERT INTO dbo.ProjectXML(menuXML) values (
-'<Menu>
+<Menu>
   <Category id="1" name="Zupy">
     <Product id="1" vegetarian="1">
       <Name>Zupa pomidorowa</Name>
       <Prices>
-        <PriceMedium>10.0000</PriceMedium>
+        <Price type="medium">10.0000</Price>
       </Prices>
     </Product>
     <Product id="2" vegetarian="1">
       <Name>Zupa pieczarkowa</Name>
       <Prices>
-        <PriceMedium>12.0000</PriceMedium>
+        <Price type="medium">12.0000</Price>
       </Prices>
     </Product>
     <Product id="3" vegetarian="1">
-      <Name>Zupa ogórkowa</Name>
+      <Name>Zupa ogÃ³rkowa</Name>
       <Prices>
-        <PriceMedium>12.0000</PriceMedium>
+        <Price type="medium">12.0000</Price>
       </Prices>
     </Product>
     <Product id="4" vegetarian="0">
-      <Name>Rosó³ z makaronem</Name>
+      <Name>RosÃ³Å‚ z makaronem</Name>
       <Prices>
-        <PriceMedium>14.0000</PriceMedium>
+        <Price type="medium">14.0000</Price>
       </Prices>
     </Product>
     <Product id="5" vegetarian="0">
-      <Name>¯urek</Name>
+      <Name>Å»urek</Name>
       <Prices>
-        <PriceMedium>15.0000</PriceMedium>
+        <Price type="medium">15.0000</Price>
       </Prices>
     </Product>
     <Product id="6" vegetarian="1">
       <Name>Barszcz czerwony</Name>
       <Prices>
-        <PriceMedium>15.0000</PriceMedium>
+        <Price type="medium">15.0000</Price>
       </Prices>
     </Product>
     <Product id="7" vegetarian="0">
       <Name>Krupnik</Name>
       <Prices>
-        <PriceMedium>14.0000</PriceMedium>
+        <Price type="medium">14.0000</Price>
       </Prices>
     </Product>
   </Category>
@@ -51,91 +47,91 @@ INSERT INTO dbo.ProjectXML(menuXML) values (
     <Product id="8" vegetarian="1">
       <Name>Pierogi z serem</Name>
       <Prices>
-        <PriceMedium>12.0000</PriceMedium>
+        <Price type="medium">12.0000</Price>
       </Prices>
     </Product>
     <Product id="9" vegetarian="1">
       <Name>Pierogi ruskie</Name>
       <Prices>
-        <PriceMedium>10.0000</PriceMedium>
+        <Price type="medium">10.0000</Price>
       </Prices>
     </Product>
     <Product id="10" vegetarian="0">
-      <Name>Pierogi z miêsem</Name>
+      <Name>Pierogi z miÄ™sem</Name>
       <Prices>
-        <PriceMedium>12.0000</PriceMedium>
+        <Price type="medium">12.0000</Price>
       </Prices>
     </Product>
     <Product id="11" vegetarian="1">
       <Name>Pierogi ze szpinakiem</Name>
       <Prices>
-        <PriceMedium>13.0000</PriceMedium>
+        <Price type="medium">13.0000</Price>
       </Prices>
     </Product>
   </Category>
-  <Category id="3" name="Naleœniki">
+  <Category id="3" name="Naleï¿½niki">
     <Product id="12" vegetarian="1">
-      <Name>Naleœniki z serem</Name>
+      <Name>NaleÅ›niki z serem</Name>
       <Prices>
-        <PriceMedium>15.0000</PriceMedium>
+        <Price type="medium">15.0000</Price>
       </Prices>
     </Product>
     <Product id="13" vegetarian="1">
-      <Name>Naleœniki z d¿emem</Name>
+      <Name>NaleÅ›niki z dÅ¼emem</Name>
       <Prices>
-        <PriceMedium>14.0000</PriceMedium>
+        <Price type="medium">14.0000</Price>
       </Prices>
     </Product>
   </Category>
-  <Category id="4" name="Dania miêsne">
+  <Category id="4" name="Dania miÄ™sne">
     <Product id="14" vegetarian="0">
       <Name>Kotlet schabowy</Name>
       <Prices>
-        <PriceMedium>12.0000</PriceMedium>
+        <Price type="medium">12.0000</Price>
       </Prices>
     </Product>
     <Product id="15" vegetarian="0">
       <Name>Kotlet z drobiu</Name>
       <Prices>
-        <PriceMedium>12.0000</PriceMedium>
+        <Price type="medium">12.0000</Price>
       </Prices>
     </Product>
     <Product id="16" vegetarian="0">
       <Name>Gulasz wieprzowy</Name>
       <Prices>
-        <PriceMedium>14.0000</PriceMedium>
+        <Price type="medium">14.0000</Price>
       </Prices>
     </Product>
     <Product id="17" vegetarian="0">
       <Name>Gulasz drobiowy</Name>
       <Prices>
-        <PriceMedium>14.0000</PriceMedium>
+        <Price type="medium">14.0000</Price>
       </Prices>
     </Product>
   </Category>
-  <Category id="5" name="Napoje ciep³e">
+  <Category id="5" name="Napoje ciepï¿½e">
     <Product id="18">
       <Name>Kawa</Name>
       <Prices>
-        <PriceSmall>5.0000</PriceSmall>
-        <PriceMedium>7.5000</PriceMedium>
-        <PriceLarge>10.0000</PriceLarge>
+        <Price type="small">5.0000</Price>
+        <Price type="medium">7.5000</Price>
+        <Price type="large">10.0000</Price>
       </Prices>
     </Product>
     <Product id="19">
       <Name>Herbata</Name>
       <Prices>
-        <PriceSmall>5.0000</PriceSmall>
-        <PriceMedium>7.5000</PriceMedium>
-        <PriceLarge>10.0000</PriceLarge>
+        <Price type="small">5.0000</Price>
+        <Price type="medium">7.5000</Price>
+        <Price type="large">10.0000</Price>
       </Prices>
     </Product>
     <Product id="20">
       <Name>Kakako</Name>
       <Prices>
-        <PriceSmall>6.0000</PriceSmall>
-        <PriceMedium>9.0000</PriceMedium>
-        <PriceLarge>12.0000</PriceLarge>
+        <Price type="small">6.0000</Price>
+        <Price type="medium">9.0000</Price>
+        <Price type="large">12.0000</Price>
       </Prices>
     </Product>
   </Category>
@@ -143,33 +139,33 @@ INSERT INTO dbo.ProjectXML(menuXML) values (
     <Product id="21">
       <Name>Cola</Name>
       <Prices>
-        <PriceSmall>6.0000</PriceSmall>
-        <PriceMedium>9.0000</PriceMedium>
-        <PriceLarge>12.0000</PriceLarge>
+        <Price type="small">6.0000</Price>
+        <Price type="medium">9.0000</Price>
+        <Price type="large">12.0000</Price>
       </Prices>
     </Product>
     <Product id="22">
-      <Name>Oran¿ada</Name>
+      <Name>Oranï¿½ada</Name>
       <Prices>
-        <PriceSmall>6.0000</PriceSmall>
-        <PriceMedium>9.0000</PriceMedium>
-        <PriceLarge>12.0000</PriceLarge>
+        <Price type="small">6.0000</Price>
+        <Price type="medium">9.0000</Price>
+        <Price type="large">12.0000</Price>
       </Prices>
     </Product>
     <Product id="23">
       <Name>Shake</Name>
       <Prices>
-        <PriceSmall>10.0000</PriceSmall>
-        <PriceMedium>15.0000</PriceMedium>
-        <PriceLarge>20.0000</PriceLarge>
+        <Price type="small">10.0000</Price>
+        <Price type="medium">15.0000</Price>
+        <Price type="large">20.0000</Price>
       </Prices>
     </Product>
     <Product id="24">
       <Name>Kompot</Name>
       <Prices>
-        <PriceSmall>4.0000</PriceSmall>
-        <PriceMedium>6.0000</PriceMedium>
-        <PriceLarge>8.0000</PriceLarge>
+        <Price type="small">4.0000</Price>
+        <Price type="medium">6.0000</Price>
+        <Price type="large">8.0000</Price>
       </Prices>
     </Product>
   </Category>
@@ -177,57 +173,57 @@ INSERT INTO dbo.ProjectXML(menuXML) values (
     <Product id="25" vegetarian="1">
       <Name>Margherita</Name>
       <Prices>
-        <PriceSmall>18.0000</PriceSmall>
-        <PriceMedium>25.0000</PriceMedium>
-        <PriceLarge>28.0000</PriceLarge>
+        <Price type="small">18.0000</Price>
+        <Price type="medium">25.0000</Price>
+        <Price type="large">28.0000</Price>
       </Prices>
     </Product>
     <Product id="26" vegetarian="0">
       <Name>Capricciosa</Name>
       <Prices>
-        <PriceSmall>20.0000</PriceSmall>
-        <PriceMedium>26.0000</PriceMedium>
-        <PriceLarge>32.0000</PriceLarge>
+        <Price type="small">20.0000</Price>
+        <Price type="medium">26.0000</Price>
+        <Price type="large">32.0000</Price>
       </Prices>
     </Product>
     <Product id="27" vegetarian="0">
       <Name>Pepperoni</Name>
       <Prices>
-        <PriceSmall>21.0000</PriceSmall>
-        <PriceMedium>27.0000</PriceMedium>
-        <PriceLarge>33.0000</PriceLarge>
+        <Price type="small">21.0000</Price>
+        <Price type="medium">27.0000</Price>
+        <Price type="large">33.0000</Price>
       </Prices>
     </Product>
     <Product id="28" vegetarian="0">
       <Name>Salami</Name>
       <Prices>
-        <PriceSmall>21.0000</PriceSmall>
-        <PriceMedium>27.0000</PriceMedium>
-        <PriceLarge>33.0000</PriceLarge>
+        <Price type="small">21.0000</Price>
+        <Price type="medium">27.0000</Price>
+        <Price type="large">33.0000</Price>
       </Prices>
     </Product>
     <Product id="29" vegetarian="0">
       <Name>Hawajska</Name>
       <Prices>
-        <PriceSmall>23.0000</PriceSmall>
-        <PriceMedium>30.0000</PriceMedium>
-        <PriceLarge>37.0000</PriceLarge>
+        <Price type="small">23.0000</Price>
+        <Price type="medium">30.0000</Price>
+        <Price type="large">37.0000</Price>
       </Prices>
     </Product>
     <Product id="30" vegetarian="1">
       <Name>Vegetariana</Name>
       <Prices>
-        <PriceSmall>25.0000</PriceSmall>
-        <PriceMedium>33.0000</PriceMedium>
-        <PriceLarge>41.0000</PriceLarge>
+        <Price type="small">25.0000</Price>
+        <Price type="medium">33.0000</Price>
+        <Price type="large">41.0000</Price>
       </Prices>
     </Product>
     <Product id="31" vegetarian="1">
       <Name>4 sery</Name>
       <Prices>
-        <PriceSmall>23.0000</PriceSmall>
-        <PriceMedium>33.0000</PriceMedium>
-        <PriceLarge>41.0000</PriceLarge>
+        <Price type="small">23.0000</Price>
+        <Price type="medium">33.0000</Price>
+        <Price type="large">41.0000</Price>
       </Prices>
     </Product>
   </Category>
@@ -235,14 +231,14 @@ INSERT INTO dbo.ProjectXML(menuXML) values (
     <Product id="32" vegetarian="0">
       <Name>Spaghetti bolognese</Name>
       <Prices>
-        <PriceMedium>22.0000</PriceMedium>
+        <Price type="medium">22.0000</Price>
       </Prices>
     </Product>
     <Product id="33" vegetarian="0">
       <Name>Spaghetti carbonara</Name>
       <Prices>
-        <PriceMedium>23.0000</PriceMedium>
+        <Price type="medium">23.0000</Price>
       </Prices>
     </Product>
   </Category>
-</Menu>');
+</Menu>
