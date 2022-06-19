@@ -44,7 +44,7 @@ CREATE XML SCHEMA COLLECTION dbo.MenuSchema AS '
 	<xs:element name="Price">
 		<xs:complexType>
 			<xs:simpleContent>
-			  <xs:extension base="xs:double">
+			  <xs:extension base="xs:decimal">
 				<xs:attribute name="type" use="required">
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
