@@ -34,14 +34,29 @@ namespace Project
                 {
                     result.Read();
 
-                    Product product = new Product((int)result["id"], (string)result["name"], (bool)result["vegetarian"], 
-                        (double)result["priceSmall"], (double)result["priceMedium"], (double)result["priceLarge"], 
-                        (int)result["categoryID"], (string)result["categoryName"]);
+                    Vegetarian isVegetarian = !result["vegetarian"].Equals(DBNull.Value) ? 
+                        new Vegetarian((bool)result["vegetarian"]) : null;
+                    Price priceSmall = !result["priceSmall"].Equals(DBNull.Value) ? 
+                        new Price("small", (decimal)result["priceSmall"]) : null;
+                    Price priceMedium = new Price("medium", (decimal)result["priceMedium"]);
+                    Price priceLarge = !result["priceLarge"].Equals(DBNull.Value) ? 
+                        new Price("large", (decimal)result["priceLarge"]) : null;
 
+                    Product product = new Product(
+                        (int)result["productID"], 
+                        (string)result["name"], 
+                        isVegetarian, 
+                        priceSmall,
+                        priceMedium,
+                        priceLarge,
+                        (int)result["categoryID"], 
+                        (string)result["categoryName"]
+                    );
                     return product;
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     return null;
                 }
 

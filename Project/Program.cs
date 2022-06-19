@@ -9,7 +9,7 @@ namespace Project
         {
             RestaurantAPI restaurant = new RestaurantAPI();
             
-            restaurant.GetProductByID(1).Print();
+            Console.WriteLine(restaurant.GetProductByID(1));
             
             Console.WriteLine("Naciśnij q, aby zakończyć działanie programu...");
             while (true)
