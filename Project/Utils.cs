@@ -11,7 +11,7 @@ namespace Project
         string type;
         decimal value;
 
-        public Price(string type, decimal value)
+        public Price(decimal value, string type = "")
         {
             this.type = type;
             this.value = decimal.Round(value, 2);
@@ -21,6 +21,12 @@ namespace Project
         {
             return string.Format("{0}", this != null ? this.value.ToString() : "Brak");
         }
+
+        public decimal Value
+        {
+            get => this.value;
+            set { this.value = value;  }
+        }
     }
 
     class Vegetarian
@@ -29,9 +35,17 @@ namespace Project
 
         public Vegetarian(bool vegetarian)
         {
-            this.isVegetarian = vegetarian;
+            isVegetarian = vegetarian;
         }
 
+        public bool IsVegetarian
+        {
+            get => isVegetarian;
+            set
+            {
+                isVegetarian = value;
+            }
+        }
         override public string ToString()
         {
             return string.Format("{0}", this != null ? (this.isVegetarian ? "Tak" : "Nie") : "Nie dotyczy");

@@ -44,7 +44,7 @@ namespace Project
                 this.priceMedium, this.priceLarge, this.categoryID, this.categoryName);
         }
 
-        override public string ToString()
+        public override string ToString()
         {
             //string isVegetarian = this.vegetarian != null ? this.vegetarian.ToString() : "Nie dotyczy";
             //string priceSmallInfo = this.priceSmall != null ? this.priceSmall.ToString() : "Brak";
@@ -53,11 +53,28 @@ namespace Project
 
             return string.Format("{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7}",
                 this.productID, this.name, 
-                this.vegetarian.ToString() ?? "Nie dotyczy", 
+                this.vegetarian, 
                 this.priceSmall,
                 this.priceMedium, 
                 this.priceLarge, 
                 this.categoryID, this.categoryName);
+        }
+    }
+
+    class Category
+    {
+        int categoryID;
+        string Name;
+
+        public Category(int categoryID, string Name)
+        {
+            this.categoryID = categoryID;
+            this.Name = Name;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} | {1}", this.categoryID, this.Name);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Data.SqlClient;
 
 namespace Project
@@ -8,9 +9,20 @@ namespace Project
         static void Main(string[] args)
         {
             RestaurantAPI restaurant = new RestaurantAPI();
-            
-            Console.WriteLine(restaurant.GetProductByID(1));
-            
+
+
+            //restaurant.DeleteCategory(3);
+            //Console.WriteLine(restaurant.GetProductByID(34));
+            restaurant.DeleteMenu(
+                );
+            ArrayList productsFromCategory = restaurant.GetProductByPriceInCategory(3);
+
+            foreach (var product in productsFromCategory)
+            {
+                Console.WriteLine(product);
+            }
+
+
             Console.WriteLine("Naciśnij q, aby zakończyć działanie programu...");
             while (true)
             {

@@ -1,7 +1,6 @@
 USE Project;
 GO
 
-
 CREATE XML SCHEMA COLLECTION dbo.MenuSchema AS '
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:element name="Menu">
@@ -29,7 +28,7 @@ CREATE XML SCHEMA COLLECTION dbo.MenuSchema AS '
 				<xs:element ref="Prices" maxOccurs="1" />
 			</xs:sequence>
 			<xs:attribute type="xs:int" name="id" use="required"/>
-			<xs:attribute type="xs:int" name="vegetarian" />
+			<xs:attribute type="xs:boolean" name="vegetarian" />
 		</xs:complexType>
 	</xs:element>
 

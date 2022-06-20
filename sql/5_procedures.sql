@@ -212,7 +212,7 @@ END
 GO
 
 /* Dodaje produkt do xml */
-CREATE PROCEDURE dbo.addProduct(@categoryID int, @prodName nvarchar(max), @vegetarian bit, @priceMedium money) AS
+CREATE PROCEDURE dbo.addProduct(@categoryID int, @prodName nvarchar(max), @priceMedium money, @vegetarian bit) AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
 	SET @xml = (SELECT * FROM dbo.ProjectXML);
@@ -432,10 +432,10 @@ END
 GO
 
 /* usuwa kategorie o podanym ID */
-CREATE PROCEDURE dbo.deleteCategory(@productID int) AS
+CREATE PROCEDURE dbo.deleteCategory(@categoryID int) AS
 BEGIN
 	UPDATE projXML 
-	SET menuXML.modify(N'delete (/Menu/Category[@id=sql:variable("@productID")])[1]') 
+	SET menuXML.modify(N'delete (/Menu/Category[@id=sql:variable("@categoryID")])[1]') 
 	FROM ( select TOP 1 menuXML from dbo.ProjectXML) projXML;
 END
 GO
