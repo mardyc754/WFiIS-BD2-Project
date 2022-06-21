@@ -82,7 +82,13 @@ GO
 DROP PROCEDURE dbo.categoriesTable;
 GO
 
+DROP PROCEDURE dbo.getProductsInCategory;
+GO
+
 DROP PROCEDURE dbo.getAllCategories;
+GO
+
+DROP PROCEDURE dbo.getAllProducts;
 GO
 
 DROP FUNCTION dbo.allCategories;

@@ -24,8 +24,9 @@ namespace Project
                 Console.WriteLine("----- Symulator restauracji - program do przetwarzania danych XML ----");
                 Console.WriteLine("1. Wybierz kategorię");
                 Console.WriteLine("2. Dodaj kategorię");
-                Console.WriteLine("3. Przeszukuj menu o podanych parametrach");
-                Console.WriteLine("4. Usuń kategorię");
+                Console.WriteLine("3. Usuń kategorię");
+                Console.WriteLine("4. Wybierz produkt");
+                Console.WriteLine("5. Przeszukuj menu o podanych parametrach");
                 Console.WriteLine("q. Wyjście z programu");
                 ConsoleKey key = Console.ReadKey().Key;
 
@@ -38,10 +39,10 @@ namespace Project
                         AddCategory();
                         break;
                     case ConsoleKey.D3:
-                        SearchInMenu();
+                        DeleteCategory();
                         break;
                     case ConsoleKey.D4:
-                        DeleteCategory();
+                        ChooseProduct();
                         break;
                     case ConsoleKey.Q:
                         Environment.Exit(0);
@@ -115,10 +116,11 @@ namespace Project
         {
             Console.Clear();
 
-            Console.WriteLine("1. Wybierz kategorię");
-            Console.WriteLine("2. Dodaj kategorię");
-            Console.WriteLine("3. Przeszukuj menu o podanych parametrach");
-            Console.WriteLine("4. Usuń kategorię");
+            Console.WriteLine("1. Wyświetl wszystkie produkty");
+            Console.WriteLine("2. Wyświetl produkty wegetariańskie");
+            Console.WriteLine("3. Wyświetl produkty w zadanym przedziale cenowym");
+            Console.WriteLine("4. Wyszukaj produkty po nazwie");
+            Console.WriteLine("r. Powrót");
             Console.WriteLine("q. Wyjście z programu");
         }
         public void DeleteCategory()
@@ -157,7 +159,48 @@ namespace Project
 
         public void CategorySubmenu(Category category)
         {
+            Console.Clear();
+            Console.WriteLine(string.Format("Wybrana kategoria: {0}", category.Name));
+            Console.WriteLine("1. Zmień nazwę kategorii");
+            Console.WriteLine("2. Wyświetl wszystkie produkty");
+            Console.WriteLine("3. Wyszukaj produkty w kategorii po nazwie");
+            Console.WriteLine("4. Wyświetl produkty wegetariańskie");
+            Console.WriteLine("5. Wyświetl produkty w wybranym przedziale cenowym");
+            Console.WriteLine("6. Dodaj produkt");
+            Console.WriteLine("7. Wybierz produkt");
+            Console.WriteLine("r. Powrót");
+            Console.WriteLine("q. Wyjście");
+        }
 
+        public void ProductSubmenu(Product product)
+        {
+            Console.Clear();
+            Console.WriteLine(string.Format("Wybrany produkt: {0}", product.Name));
+            Console.WriteLine("1. Zmień nazwę produktu");
+            Console.WriteLine("2. Zmień cenę za mały rozmiar");
+            Console.WriteLine("3. Zmień cenę za średni rozmiar");
+            Console.WriteLine("4. Zmień cenę za duży rozmiar");
+            Console.WriteLine("5. Usuń cenę za mały rozmiar");
+            Console.WriteLine("6. Usuń cenę za duży rozmiar");
+            Console.WriteLine("7. Usuń produkt");
+            Console.WriteLine("r. Powrót");
+            Console.WriteLine("q. Wyjście");
+        }
+
+        public void ChooseProduct(Category category = null)
+        {
+            List<Product> products; 
+
+
+            if (category != null)
+            {
+                // List<Category> categories = restaurant.GetProductsInCategory();
+
+                //for (int i = 1; i <= categories.Count; i++)
+                //{
+                //    Console.WriteLine(string.Format("{0}. {1}", i, categories[i - 1].Name));
+                //}
+            }
         }
     }
 }

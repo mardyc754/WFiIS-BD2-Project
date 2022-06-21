@@ -20,6 +20,31 @@ RETURN(
 );
 GO
 
+
+/* funkcja zwracająca wszystkie kategorie */
+CREATE FUNCTION dbo.allCategories(@xml xml(MenuSchema))
+RETURNS TABLE 
+AS
+RETURN (
+	SELECT categoryID, categoryName, ROW_NUMBER() over (order by categoryID) as rowNumber from 
+	(
+		SELECT
+		categoryCol.value('./@id', 'int') as categoryID,
+		categoryCol.value('./@name', 'nvarchar(100)') as categoryName
+		FROM  @xml.nodes('/Menu/Category') catTable(categoryCol)
+	) s
+);
+GO
+
+/* Procedura zwracająca wszystkie produkty */
+CREATE PROCEDURE dbo.getAllProducts AS 
+BEGIN
+	DECLARE @xml xml(MenuSchema);
+	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SELECT * FROM dbo.getAllProductsWithCategories(@xml);
+END;
+GO
+
 /* Procedura zwracająca wszystkie kategorie */
 CREATE PROCEDURE dbo.getAllCategories AS
 BEGIN
@@ -32,6 +57,16 @@ BEGIN
 		categoryCol.value('./@name', 'nvarchar(100)') as categoryName
 		FROM  @xml.nodes('/Menu/Category') catTable(categoryCol)
 	) s;
+END;
+GO
+
+/* Zwraca wszystkie produkty w danej kategorii */
+CREATE PROCEDURE dbo.getProductsInCategory(@categoryID int) AS 
+BEGIN
+	DECLARE @xml xml(MenuSchema);
+	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SELECT * FROM dbo.getAllProductsWithCategories(@xml)
+	WHERE categoryID = @categoryID;
 END;
 GO
 

@@ -38,6 +38,8 @@ namespace Project
         }
 
         public int ID { get => productID; }
+        public string Name { get => name; }
+
         public void Print()
         {
             Console.WriteLine("{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7}",

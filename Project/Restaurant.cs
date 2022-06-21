@@ -46,6 +46,29 @@ namespace Project
                     );
         }
 
+        List<Product> GetProductsFromDatabase(SqlCommand command)
+        {
+            using (SqlDataReader result = command.ExecuteReader())
+            {
+
+                try
+                {
+                    List<Product> productList = new List<Product>();
+                    while (result.Read())
+                    {
+                        productList.Add(CreateProduct(result));
+                    }
+                    return productList;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return null;
+                }
+
+            };
+        }
+
         public List<Category> GetAllCategories()
         {
             SqlCommand command = new SqlCommand("getAllCategories", connection)
@@ -72,6 +95,26 @@ namespace Project
                 }
 
             };
+        }
+
+        public List<Product> GetAllProducts()
+        {
+            SqlCommand command = new SqlCommand("getAllProducts", connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            return GetProductsFromDatabase(command);
+        }
+
+        public List<Product> GetProductsInCategory()
+        {
+            SqlCommand command = new SqlCommand("getAllProducts", connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            return GetProductsFromDatabase(command);
         }
 
         public Product GetProductByID(int productId)
@@ -136,26 +179,7 @@ namespace Project
 
             command.Parameters.Add("@id", SqlDbType.Int).Value = categoryId;
 
-            using (SqlDataReader result = command.ExecuteReader())
-            {
-
-                try
-                {
-                    List<Product> productList = new List<Product>();
-                    while (result.Read())
-                    {
-
-                        productList.Add(CreateProduct(result));
-                    }
-                    return productList;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    return null;
-                }
-
-            };
+            return GetProductsFromDatabase(command);
         }
 
         public List<Product> GetProductsFromCategoryByCategoryName(string categoryName)
@@ -167,25 +191,7 @@ namespace Project
 
             command.Parameters.Add("@name", SqlDbType.NVarChar).Value = categoryName + '%';
 
-            using (SqlDataReader result = command.ExecuteReader())
-            {
-
-                try
-                {
-                    List<Product> productList = new List<Product>();
-                    while (result.Read())
-                    {
-                        productList.Add(CreateProduct(result));
-                    }
-                    return productList;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    return null;
-                }
-
-            };
+            return GetProductsFromDatabase(command);
         }
 
 
@@ -198,25 +204,7 @@ namespace Project
 
             command.Parameters.Add("@name", SqlDbType.NVarChar).Value = productName + '%';
 
-            using (SqlDataReader result = command.ExecuteReader())
-            {
-
-                try
-                {
-                    List<Product> productList = new List<Product>();
-                    while (result.Read())
-                    {
-                        productList.Add(CreateProduct(result));
-                    }
-                    return productList;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    return null;
-                }
-
-            };
+            return GetProductsFromDatabase(command);
         }
 
         public List<Product> GetVegetarianProducts()
@@ -226,25 +214,7 @@ namespace Project
                 CommandType = CommandType.StoredProcedure
             };
 
-            using (SqlDataReader result = command.ExecuteReader())
-            {
-
-                try
-                {
-                    List<Product> productList = new List<Product>();
-                    while (result.Read())
-                    {
-                        productList.Add(CreateProduct(result));
-                    }
-                    return productList;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    return null;
-                }
-
-            };
+            return GetProductsFromDatabase(command);
         }
 
         public List<Product> GetVegetarianProductsInCategory(int categoryId)
@@ -256,25 +226,7 @@ namespace Project
 
             command.Parameters.Add("@categoryID", SqlDbType.Int).Value =  categoryId;
 
-            using (SqlDataReader result = command.ExecuteReader())
-            {
-
-                try
-                {
-                    List<Product> productList = new List<Product>();
-                    while (result.Read())
-                    {
-                        productList.Add(CreateProduct(result));
-                    }
-                    return productList;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    return null;
-                }
-
-            };
+            return GetProductsFromDatabase(command);
         }
         public List<Product> GetProductByPrice(decimal priceMin = 0, 
             decimal priceMax = 922337203685477.5807m // SqlMoney.MaxValue
@@ -289,25 +241,7 @@ namespace Project
             command.Parameters.Add("@priceMax", SqlDbType.Money).Value = priceMax;
 
 
-            using (SqlDataReader result = command.ExecuteReader())
-            {
-
-                try
-                {
-                    List<Product> productList = new List<Product>();
-                    while (result.Read())
-                    {
-                        productList.Add(CreateProduct(result));
-                    }
-                    return productList;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    return null;
-                }
-
-            };
+            return GetProductsFromDatabase(command);
         }
 
         public List<Product> GetProductByPriceInCategory(int categoryId, decimal priceMin = 0,
@@ -323,26 +257,7 @@ namespace Project
             command.Parameters.Add("@priceMin", SqlDbType.Money).Value = priceMin;
             command.Parameters.Add("@priceMax", SqlDbType.Money).Value = priceMax;
 
-
-            using (SqlDataReader result = command.ExecuteReader())
-            {
-
-                try
-                {
-                    List<Product> productList = new List<Product>();
-                    while (result.Read())
-                    {
-                        productList.Add(CreateProduct(result));
-                    }
-                    return productList;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    return null;
-                }
-
-            };
+            return GetProductsFromDatabase(command);
         }
 
         public void AddCategory(string categoryName)
