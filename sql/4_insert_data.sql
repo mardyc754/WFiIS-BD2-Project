@@ -1,4 +1,8 @@
+USE Project
+GO
+
 TRUNCATE TABLE dbo.ProjectXML;
+GO
 
 INSERT INTO dbo.ProjectXML(menuXML) values (
 '<Menu>
@@ -72,7 +76,7 @@ INSERT INTO dbo.ProjectXML(menuXML) values (
       </Prices>
     </Product>
   </Category>
-  <Category id="3" name="Nale�niki">
+  <Category id="3" name="Naleśniki">
     <Product id="12" vegetarian="1">
       <Name>Naleśniki z serem</Name>
       <Prices>
@@ -112,7 +116,7 @@ INSERT INTO dbo.ProjectXML(menuXML) values (
       </Prices>
     </Product>
   </Category>
-  <Category id="5" name="Napoje ciep�e">
+  <Category id="5" name="Napoje ciepłe">
     <Product id="18">
       <Name>Kawa</Name>
       <Prices>
@@ -148,7 +152,7 @@ INSERT INTO dbo.ProjectXML(menuXML) values (
       </Prices>
     </Product>
     <Product id="22">
-      <Name>Oran�ada</Name>
+      <Name>Oranżada</Name>
       <Prices>
         <Price type="small">6.0000</Price>
         <Price type="medium">9.0000</Price>

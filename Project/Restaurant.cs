@@ -10,18 +10,18 @@ using System.Data;
 
 namespace Project
 {
-    class RestaurantAPI
+    class Restaurant
     {
         private SqlConnection connection = null;
 
-        public RestaurantAPI()
+        public Restaurant()
         {
             string connStr = @"Data Source=X240\SQLEXPRESS;Initial Catalog = Project;Integrated Security = True;";
             connection = new SqlConnection(connStr);
             connection.Open();
         }
 
-        Product createProduct(SqlDataReader result)
+        Product CreateProduct(SqlDataReader result)
         {
             Vegetarian isVegetarian = !result["vegetarian"].Equals(DBNull.Value) ?
                 new Vegetarian((bool)result["vegetarian"]) : null;
@@ -46,6 +46,34 @@ namespace Project
                     );
         }
 
+        public List<Category> GetAllCategories()
+        {
+            SqlCommand command = new SqlCommand("getAllCategories", connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            using (SqlDataReader result = command.ExecuteReader())
+            {
+
+                try
+                {
+                    List<Category> categoriesList = new List<Category>();
+                    while (result.Read())
+                    {
+                        categoriesList.Add(new Category((int)result["categoryID"], (string)result["categoryName"]));
+                    }
+                    return categoriesList;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return null;
+                }
+
+            };
+        }
+
         public Product GetProductByID(int productId)
         {
             SqlCommand getProductByIDCommand = new SqlCommand("getProductByID", connection)
@@ -61,7 +89,7 @@ namespace Project
                 try
                 {
                     result.Read();
-                    return createProduct(result);
+                    return CreateProduct(result);
                 }
                 catch (Exception e)
                 {
@@ -99,7 +127,7 @@ namespace Project
             };
         }
 
-        public ArrayList GetProductsFromCategoryByCategoryID(int categoryId)
+        public List<Product> GetProductsFromCategoryByCategoryID(int categoryId)
         {
             SqlCommand command = new SqlCommand("getProductsFromCategoryByCategoryID", connection)
             {
@@ -113,10 +141,11 @@ namespace Project
 
                 try
                 {
-                    ArrayList productList = new ArrayList();
+                    List<Product> productList = new List<Product>();
                     while (result.Read())
                     {
-                        productList.Add(createProduct(result));
+
+                        productList.Add(CreateProduct(result));
                     }
                     return productList;
                 }
@@ -129,7 +158,7 @@ namespace Project
             };
         }
 
-        public ArrayList GetProductsFromCategoryByCategoryName(string categoryName)
+        public List<Product> GetProductsFromCategoryByCategoryName(string categoryName)
         {
             SqlCommand command = new SqlCommand("getProductsFromCategoryByCategoryName", connection)
             {
@@ -143,10 +172,10 @@ namespace Project
 
                 try
                 {
-                    ArrayList productList = new ArrayList();
+                    List<Product> productList = new List<Product>();
                     while (result.Read())
                     {
-                        productList.Add(createProduct(result));
+                        productList.Add(CreateProduct(result));
                     }
                     return productList;
                 }
@@ -159,7 +188,8 @@ namespace Project
             };
         }
 
-        public ArrayList GetProductByName(string productName)
+
+        public List<Product> GetProductByName(string productName)
         {
             SqlCommand command = new SqlCommand("getProductByName", connection)
             {
@@ -173,10 +203,10 @@ namespace Project
 
                 try
                 {
-                    ArrayList productList = new ArrayList();
+                    List<Product> productList = new List<Product>();
                     while (result.Read())
                     {
-                        productList.Add(createProduct(result));
+                        productList.Add(CreateProduct(result));
                     }
                     return productList;
                 }
@@ -189,7 +219,7 @@ namespace Project
             };
         }
 
-        public ArrayList GetVegetarianProducts()
+        public List<Product> GetVegetarianProducts()
         {
             SqlCommand command = new SqlCommand("getVegetarianProducts", connection)
             {
@@ -201,10 +231,10 @@ namespace Project
 
                 try
                 {
-                    ArrayList productList = new ArrayList();
+                    List<Product> productList = new List<Product>();
                     while (result.Read())
                     {
-                        productList.Add(createProduct(result));
+                        productList.Add(CreateProduct(result));
                     }
                     return productList;
                 }
@@ -217,7 +247,7 @@ namespace Project
             };
         }
 
-        public ArrayList GetVegetarianProductsInCategory(int categoryId)
+        public List<Product> GetVegetarianProductsInCategory(int categoryId)
         {
             SqlCommand command = new SqlCommand("getVegetarianProductsInCategory", connection)
             {
@@ -231,10 +261,10 @@ namespace Project
 
                 try
                 {
-                    ArrayList productList = new ArrayList();
+                    List<Product> productList = new List<Product>();
                     while (result.Read())
                     {
-                        productList.Add(createProduct(result));
+                        productList.Add(CreateProduct(result));
                     }
                     return productList;
                 }
@@ -246,7 +276,7 @@ namespace Project
 
             };
         }
-        public ArrayList GetProductByPrice(decimal priceMin = 0, 
+        public List<Product> GetProductByPrice(decimal priceMin = 0, 
             decimal priceMax = 922337203685477.5807m // SqlMoney.MaxValue
             ) 
         {
@@ -264,10 +294,10 @@ namespace Project
 
                 try
                 {
-                    ArrayList productList = new ArrayList();
+                    List<Product> productList = new List<Product>();
                     while (result.Read())
                     {
-                        productList.Add(createProduct(result));
+                        productList.Add(CreateProduct(result));
                     }
                     return productList;
                 }
@@ -280,7 +310,7 @@ namespace Project
             };
         }
 
-        public ArrayList GetProductByPriceInCategory(int categoryId, decimal priceMin = 0,
+        public List<Product> GetProductByPriceInCategory(int categoryId, decimal priceMin = 0,
             decimal priceMax = 922337203685477.5807m // SqlMoney.MaxValue
             )
         {
@@ -299,10 +329,10 @@ namespace Project
 
                 try
                 {
-                    ArrayList productList = new ArrayList();
+                    List<Product> productList = new List<Product>();
                     while (result.Read())
                     {
-                        productList.Add(createProduct(result));
+                        productList.Add(CreateProduct(result));
                     }
                     return productList;
                 }
@@ -473,13 +503,13 @@ namespace Project
             DeleteById(productID, "deleteProductPriceSmall", "@productID");
         }
 
-        public void DeleteProduct(int productID)
+        public void DeleteProduct(Product product)
         {
-            DeleteById(productID, "deleteProduct", "@productID");
+            DeleteById(product.ID, "deleteProduct", "@productID");
         }
-        public void DeleteCategory(int categoryID)
+        public void DeleteCategory(Category category)
         {
-            DeleteById(categoryID, "deleteCategory", "@categoryID");
+            DeleteById(category.CategoryID, "deleteCategory", "@categoryID");
         }
 
         public void DeleteMenu()

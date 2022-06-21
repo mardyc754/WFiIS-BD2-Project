@@ -37,6 +37,7 @@ namespace Project
             this.categoryName = categoryName;
         }
 
+        public int ID { get => productID; }
         public void Print()
         {
             Console.WriteLine("{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7}",
@@ -63,18 +64,22 @@ namespace Project
 
     class Category
     {
-        int categoryID;
-        string Name;
+        private int categoryID;
+        private string name;
 
-        public Category(int categoryID, string Name)
+        public Category(int categoryID, string name)
         {
             this.categoryID = categoryID;
-            this.Name = Name;
+            this.name = name;
         }
+
+        public string Name { get => name; }
+        public int CategoryID { get => categoryID; }
+
 
         public override string ToString()
         {
-            return string.Format("{0} | {1}", this.categoryID, this.Name);
+            return string.Format("{0} | {1}", this.categoryID, this.name);
         }
     }
 }

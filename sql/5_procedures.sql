@@ -20,11 +20,24 @@ RETURN(
 );
 GO
 
-/* Wszystkie węzly z kategoriami */
-CREATE PROCEDURE dbo.categoriesTable AS
+/* Procedura zwracająca wszystkie kategorie */
+CREATE PROCEDURE dbo.getAllCategories AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
 	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SELECT categoryID, categoryName, ROW_NUMBER() over (order by categoryID) as rowNumber from 
+	(
+		SELECT
+		categoryCol.value('./@id', 'int') as categoryID,
+		categoryCol.value('./@name', 'nvarchar(100)') as categoryName
+		FROM  @xml.nodes('/Menu/Category') catTable(categoryCol)
+	) s;
+END;
+GO
+
+/* Wszystkie węzly z kategoriami */
+CREATE PROCEDURE dbo.categoriesTable AS
+BEGIN
 	SELECT col.value('./@id', 'int') as categoryID, col.query('.') AS categories 
 	FROM  @xml.nodes('/Menu/Category') T(col);
 END;
