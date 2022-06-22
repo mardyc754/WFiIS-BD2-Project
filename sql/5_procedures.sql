@@ -60,8 +60,8 @@ BEGIN
 END;
 GO
 
-/* Zwraca wszystkie produkty w danej kategorii */
-CREATE PROCEDURE dbo.getProductsInCategory(@categoryID int) AS 
+/* Zwraca dane wszystkich produktow z wybranej kategorii po jej ID */
+CREATE PROCEDURE dbo.getProductsFromCategory(@categoryID int) AS 
 BEGIN
 	DECLARE @xml xml(MenuSchema);
 	SET @xml = (SELECT * FROM dbo.ProjectXML);
@@ -141,16 +141,6 @@ BEGIN
 END
 GO
 
-/* Zwraca dane produktow z wybranej kategorii po jej ID */
-CREATE PROCEDURE dbo.getProductsFromCategoryByCategoryID(@id int) AS
-BEGIN
-	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
-	SELECT * from dbo.getAllProductsWithCategories(@xml)
-	WHERE categoryID = @id;
-END
-GO
-
 /* Zwraca dane produktow z wybranej kategorii po nazwie pasujacej do wzorca */
 CREATE PROCEDURE dbo.getProductsFromCategoryByCategoryName(@name nvarchar(100)) AS
 BEGIN
@@ -167,7 +157,7 @@ BEGIN
 	DECLARE @xml xml(MenuSchema);
 	SET @xml = (SELECT * FROM dbo.ProjectXML);
 	SELECT * from dbo.getAllProductsWithCategories(@xml)
-	WHERE name like @name;
+	WHERE LOWER(name) like @name;
 END;
 GO
 

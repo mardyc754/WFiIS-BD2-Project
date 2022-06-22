@@ -21,53 +21,6 @@ namespace Project
             connection.Open();
         }
 
-        Product CreateProduct(SqlDataReader result)
-        {
-            Vegetarian isVegetarian = !result["vegetarian"].Equals(DBNull.Value) ?
-                new Vegetarian((bool)result["vegetarian"]) : null;
-            
-            Price priceSmall = !result["priceSmall"].Equals(DBNull.Value) ?
-                new Price((decimal)result["priceSmall"], "small") : null;
-            
-            Price priceLarge = !result["priceLarge"].Equals(DBNull.Value) ?
-                new Price((decimal)result["priceLarge"], "large") : null;
-            
-            Price priceMedium = new Price((decimal)result["priceMedium"], "medium");
-
-            return new Product(
-                        (int)result["productID"],
-                        (string)result["name"],
-                        isVegetarian,
-                        priceSmall,
-                        priceMedium,
-                        priceLarge,
-                        (int)result["categoryID"],
-                        (string)result["categoryName"]
-                    );
-        }
-
-        List<Product> GetProductsFromDatabase(SqlCommand command)
-        {
-            using (SqlDataReader result = command.ExecuteReader())
-            {
-
-                try
-                {
-                    List<Product> productList = new List<Product>();
-                    while (result.Read())
-                    {
-                        productList.Add(CreateProduct(result));
-                    }
-                    return productList;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    return null;
-                }
-
-            };
-        }
 
         public List<Category> GetAllCategories()
         {
@@ -104,17 +57,17 @@ namespace Project
                 CommandType = CommandType.StoredProcedure
             };
 
-            return GetProductsFromDatabase(command);
+            return Helpers.GetProductsFromDatabase(command);
         }
 
-        public List<Product> GetProductsInCategory()
+        public List<Product> GetProductsFromCategory()
         {
-            SqlCommand command = new SqlCommand("getAllProducts", connection)
+            SqlCommand command = new SqlCommand("", connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
 
-            return GetProductsFromDatabase(command);
+            return Helpers.GetProductsFromDatabase(command);
         }
 
         public Product GetProductByID(int productId)
@@ -132,7 +85,7 @@ namespace Project
                 try
                 {
                     result.Read();
-                    return CreateProduct(result);
+                    return Helpers.CreateProduct(result);
                 }
                 catch (Exception e)
                 {
@@ -170,16 +123,16 @@ namespace Project
             };
         }
 
-        public List<Product> GetProductsFromCategoryByCategoryID(int categoryId)
+        public List<Product> GetProductsFromCategory(Category category)
         {
-            SqlCommand command = new SqlCommand("getProductsFromCategoryByCategoryID", connection)
+            SqlCommand command = new SqlCommand("getProductsFromCategory", connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
 
-            command.Parameters.Add("@id", SqlDbType.Int).Value = categoryId;
+            command.Parameters.Add("@categoryID", SqlDbType.Int).Value = category.ID;
 
-            return GetProductsFromDatabase(command);
+            return Helpers.GetProductsFromDatabase(command);
         }
 
         public List<Product> GetProductsFromCategoryByCategoryName(string categoryName)
@@ -191,20 +144,20 @@ namespace Project
 
             command.Parameters.Add("@name", SqlDbType.NVarChar).Value = categoryName + '%';
 
-            return GetProductsFromDatabase(command);
+            return Helpers.GetProductsFromDatabase(command);
         }
 
 
-        public List<Product> GetProductByName(string productName)
+        public List<Product> GetProductsByName(string productName)
         {
             SqlCommand command = new SqlCommand("getProductByName", connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
 
-            command.Parameters.Add("@name", SqlDbType.NVarChar).Value = productName + '%';
+            command.Parameters.Add("@name", SqlDbType.NVarChar).Value = '%' + productName + '%';
 
-            return GetProductsFromDatabase(command);
+            return Helpers.GetProductsFromDatabase(command);
         }
 
         public List<Product> GetVegetarianProducts()
@@ -214,23 +167,23 @@ namespace Project
                 CommandType = CommandType.StoredProcedure
             };
 
-            return GetProductsFromDatabase(command);
+            return Helpers.GetProductsFromDatabase(command);
         }
 
-        public List<Product> GetVegetarianProductsInCategory(int categoryId)
+        public List<Product> GetVegetarianProductsInCategory(Category category)
         {
             SqlCommand command = new SqlCommand("getVegetarianProductsInCategory", connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
 
-            command.Parameters.Add("@categoryID", SqlDbType.Int).Value =  categoryId;
+            command.Parameters.Add("@categoryID", SqlDbType.Int).Value = category.ID;
 
-            return GetProductsFromDatabase(command);
+            return Helpers.GetProductsFromDatabase(command);
         }
-        public List<Product> GetProductByPrice(decimal priceMin = 0, 
+        public List<Product> GetProductByPrice(decimal priceMin = 0,
             decimal priceMax = 922337203685477.5807m // SqlMoney.MaxValue
-            ) 
+            )
         {
             SqlCommand command = new SqlCommand("getProductByPrice", connection)
             {
@@ -241,11 +194,11 @@ namespace Project
             command.Parameters.Add("@priceMax", SqlDbType.Money).Value = priceMax;
 
 
-            return GetProductsFromDatabase(command);
+            return Helpers.GetProductsFromDatabase(command);
         }
 
-        public List<Product> GetProductByPriceInCategory(int categoryId, decimal priceMin = 0,
-            decimal priceMax = 922337203685477.5807m // SqlMoney.MaxValue
+        public List<Product> GetProductByPriceInCategory(Category category, decimal priceMin,
+            decimal priceMax // SqlMoney.MaxValue
             )
         {
             SqlCommand command = new SqlCommand("getProductByPriceInCategory", connection)
@@ -253,11 +206,11 @@ namespace Project
                 CommandType = CommandType.StoredProcedure
             };
 
-            command.Parameters.Add("@categoryID", SqlDbType.Int).Value = categoryId;
+            command.Parameters.Add("@categoryID", SqlDbType.Int).Value = category.ID;
             command.Parameters.Add("@priceMin", SqlDbType.Money).Value = priceMin;
             command.Parameters.Add("@priceMax", SqlDbType.Money).Value = priceMax;
 
-            return GetProductsFromDatabase(command);
+            return Helpers.GetProductsFromDatabase(command);
         }
 
         public void AddCategory(string categoryName)
@@ -270,50 +223,47 @@ namespace Project
             command.ExecuteNonQuery();
         }
 
-        public void AddProduct(int categoryID, string prodName, decimal priceMedium, Vegetarian vegetarian = null)
+        public void AddProduct(Product product)
         {
             SqlCommand command = new SqlCommand("addProduct", connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
-            command.Parameters.Add("@categoryID", SqlDbType.Int).Value = categoryID;
-            command.Parameters.Add("@prodName", SqlDbType.NVarChar).Value = prodName;
-            command.Parameters.Add("@priceMedium", SqlDbType.Money).Value = priceMedium;
-            if (vegetarian != null)
+            command.Parameters.Add("@categoryID", SqlDbType.Int).Value = product.CategoryID;
+            command.Parameters.Add("@prodName", SqlDbType.NVarChar).Value = product.Name;
+            command.Parameters.Add("@priceMedium", SqlDbType.Money).Value = product.PriceMedium.Value;
+            if (product.Vegetarian != null)
             {
-                command.Parameters.Add("@vegetarian", SqlDbType.Bit).Value = vegetarian.IsVegetarian;
+                command.Parameters.Add("@vegetarian", SqlDbType.Bit).Value = product.Vegetarian.IsVegetarian;
             } else {
                 command.Parameters.Add("@vegetarian", SqlDbType.Bit).Value = DBNull.Value;
             }
             command.ExecuteNonQuery();
         }
 
-        public void AddPriceSmall(int productID, decimal priceSmall)
+        public void AddPrice(Product product, decimal newPrice, string priceType)
         {
-            SqlCommand command = new SqlCommand("addPriceSmall", connection)
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-            command.Parameters.Add("@productID", SqlDbType.Int).Value = productID;
-            command.Parameters.Add("@priceSmall", SqlDbType.Money).Value = priceSmall;
-            try
-            {
-                command.ExecuteNonQuery();
-            } 
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-}
+            string addPriceMethodName = "";
+            string addPriceParam = "";
 
-        public void AddPriceLarge(int productID, decimal priceLarge)
-        {
-            SqlCommand command = new SqlCommand("addPriceLarge", connection)
+            switch (priceType)
+            {
+                case "small":
+                    addPriceMethodName = "addPriceSmall";
+                    addPriceParam = "@priceSmall";
+                    break;
+                case "large":
+                    addPriceMethodName = "addPriceLarge";
+                    addPriceParam = "@priceLarge";
+                    break;
+            }
+
+            SqlCommand command = new SqlCommand(addPriceMethodName, connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
-            command.Parameters.Add("@productID", SqlDbType.Int).Value = productID;
-            command.Parameters.Add("@priceLarge", SqlDbType.Money).Value = priceLarge;
+            command.Parameters.Add("@productID", SqlDbType.Int).Value = product.ID;
+            command.Parameters.Add(addPriceParam, SqlDbType.Money).Value = newPrice;
             try
             {
                 command.ExecuteNonQuery();
@@ -322,16 +272,17 @@ namespace Project
             {
                 Console.WriteLine(e.Message);
             }
+
         }
 
-        public void ModifyCategoryName(int categoryID, string newName)
+        public void ModifyCategoryName(Category category, string newName)
         {
             SqlCommand command = new SqlCommand("modifyCategoryName", connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
             command.Parameters.Add("@newName", SqlDbType.NVarChar).Value = newName;
-            command.Parameters.Add("@categoryID", SqlDbType.Int).Value = categoryID;
+            command.Parameters.Add("@categoryID", SqlDbType.Int).Value = category.ID;
             try
             {
                 command.ExecuteNonQuery();
@@ -342,14 +293,14 @@ namespace Project
             }
         }
 
-        public void ModifyProductName(int productID, string newName)
+        public void ModifyProductName(Product product, string newName)
         {
             SqlCommand command = new SqlCommand("modifyProductName", connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
             command.Parameters.Add("@newName", SqlDbType.NVarChar).Value = newName;
-            command.Parameters.Add("@productID", SqlDbType.Int).Value = productID;
+            command.Parameters.Add("@productID", SqlDbType.Int).Value = product.ID;
             try
             {
                 command.ExecuteNonQuery();
@@ -360,14 +311,30 @@ namespace Project
             }
         }
 
-        private void ModifyProductPrice(int productID, decimal newPrice, string modifyPriceCommand, string modifyPriceVariable)
+        public void ModifyProductPrice(Product product, decimal newPrice, string priceType)
         {
+            string modifyPriceCommand = "", modifyPriceVariable = "";
+            switch (priceType)
+            {
+                case "small":
+                    modifyPriceCommand = "modifyProductPriceSmall";
+                    modifyPriceVariable = "@newPriceSmall";
+                    break;
+                case "medium":
+                    modifyPriceCommand = "modifyProductPriceMedium";
+                    modifyPriceVariable = "@newPriceMedium";
+                    break;
+                case "large":
+                    modifyPriceCommand = "modifyProductPriceLarge";
+                    modifyPriceVariable = "@newPriceLarge";
+                    break;
+            }
             SqlCommand command = new SqlCommand(modifyPriceCommand, connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
             command.Parameters.Add(modifyPriceVariable, SqlDbType.Money).Value = newPrice;
-            command.Parameters.Add("@productID", SqlDbType.Int).Value = productID;
+            command.Parameters.Add("@productID", SqlDbType.Int).Value = product.ID;
             try
             {
                 command.ExecuteNonQuery();
@@ -376,19 +343,6 @@ namespace Project
             {
                 Console.WriteLine(e.Message);
             }
-        }
-
-        public void ModifyProductPriceSmall(int productID, decimal newPriceSmall)
-        {
-            ModifyProductPrice(productID, newPriceSmall, "modifyProductPriceSmall", "@newPriceSmall");
-        }
-        public void ModifyProductPriceMedium(int productID, decimal newPriceMedium)
-        {
-            ModifyProductPrice(productID, newPriceMedium, "modifyProductPriceMedium", "@newPriceMedium");
-        }
-        public void ModifyProductPriceLarge(int productID, decimal newPriceLarge)
-        {
-            ModifyProductPrice(productID, newPriceLarge, "modifyProductPriceLarge", "@newPriceLarge");
         }
 
         private void DeleteById(int id, string deleteCommand, string idParam)
@@ -424,7 +378,7 @@ namespace Project
         }
         public void DeleteCategory(Category category)
         {
-            DeleteById(category.CategoryID, "deleteCategory", "@categoryID");
+            DeleteById(category.ID, "deleteCategory", "@categoryID");
         }
 
         public void DeleteMenu()
