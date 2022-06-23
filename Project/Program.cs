@@ -11,13 +11,6 @@ namespace Project
             RestaurantView restaurantHandler = new RestaurantView();
 
             restaurantHandler.MainMenu();
-
-            //ArrayList productsFromCategory = restaurant.GetProductByPriceInCategory(3);
-
-            //foreach (var product in productsFromCategory)
-            //{
-            //    Console.WriteLine(product);
-            //}
         }
     }
 }

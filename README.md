@@ -1,12 +1,20 @@
-# Przetwarzanie danych XML
 
+# Przetwarzanie dokumentów XML - Program do zarządzania menu restauracji
 
-## Opis problemu i opis funkcjonalności udostęnianej przez API
+## Marta Dychała
 
-## Opis typów danych oraz metod ( funkcji ) udostępnionych w ramach API
+----------------------------------
 
-## Opis implementacji
+## 1. Problem (temat projektu)
 
-## Prezentacja przeprowadzonych testów jednostkowych
+## 2. Funkcjonalności udostępnione przez API
 
-##Podsumowanie, wnioski
+https://github.com/khalidabuhakmeh/ConsoleTables
+
+## 3. Typy danych oraz metody udostępnione w ramach API
+
+## 4. Implementacja API
+
+## 5. Testy jednostkowe
+
+## 6. Podsumowanie, wnioski

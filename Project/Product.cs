@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Project
 {
@@ -67,26 +68,30 @@ namespace Project
                 this.priceLarge, 
                 this.categoryID, this.categoryName);
         }
-    }
 
-    public class Category
-    {
-        private int categoryID;
-        private string name;
-
-        public Category(int categoryID, string name)
+        public static Product CreateProduct(SqlDataReader result)
         {
-            this.categoryID = categoryID;
-            this.name = name;
-        }
+            Vegetarian isVegetarian = !result["vegetarian"].Equals(DBNull.Value) ?
+                new Vegetarian((bool)result["vegetarian"]) : null;
 
-        public string Name { get => name; }
-        public int ID { get => categoryID; }
+            Price priceSmall = !result["priceSmall"].Equals(DBNull.Value) ?
+                new Price((decimal)result["priceSmall"]) : null;
 
+            Price priceLarge = !result["priceLarge"].Equals(DBNull.Value) ?
+                new Price((decimal)result["priceLarge"]) : null;
 
-        public override string ToString()
-        {
-            return string.Format("{0} | {1}", this.categoryID, this.name);
+            Price priceMedium = new Price((decimal)result["priceMedium"]);
+
+            return new Product(
+                        (int)result["productID"],
+                        (string)result["name"],
+                        isVegetarian,
+                        priceSmall,
+                        priceMedium,
+                        priceLarge,
+                        (int)result["categoryID"],
+                        (string)result["categoryName"]
+                    );
         }
     }
 }

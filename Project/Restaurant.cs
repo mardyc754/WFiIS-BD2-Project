@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.Data;
 
 
@@ -12,13 +11,36 @@ namespace Project
 {
     public class Restaurant
     {
-        private SqlConnection connection = null;
+        private readonly SqlConnection connection = null;
 
         public Restaurant()
         {
             string connStr = @"Data Source=X240\SQLEXPRESS;Initial Catalog = Project;Integrated Security = True;";
             connection = new SqlConnection(connStr);
             connection.Open();
+        }
+
+        private static List<Product> GetProductsFromDatabase(SqlCommand command)
+        {
+            using (SqlDataReader result = command.ExecuteReader())
+            {
+
+                try
+                {
+                    List<Product> productList = new List<Product>();
+                    while (result.Read())
+                    {
+                        productList.Add(Product.CreateProduct(result));
+                    }
+                    return productList;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return null;
+                }
+
+            };
         }
 
         public void InsertDefaultData()
@@ -45,7 +67,7 @@ namespace Project
                 try
                 {
                     result.Read();
-                    return Helpers.CreateProduct(result);
+                    return Product.CreateProduct(result);
                 }
                 catch (Exception e)
                 {
@@ -118,7 +140,7 @@ namespace Project
                 CommandType = CommandType.StoredProcedure
             };
 
-            return Helpers.GetProductsFromDatabase(command);
+            return GetProductsFromDatabase(command);
         }
 
 
@@ -131,7 +153,7 @@ namespace Project
 
             command.Parameters.Add("@categoryID", SqlDbType.Int).Value = category.ID;
 
-            return Helpers.GetProductsFromDatabase(command);
+            return GetProductsFromDatabase(command);
         }
 
         public List<Product> GetProductsByName(string productName)
@@ -143,7 +165,7 @@ namespace Project
 
             command.Parameters.Add("@name", SqlDbType.NVarChar).Value = '%' + productName + '%';
 
-            return Helpers.GetProductsFromDatabase(command);
+            return GetProductsFromDatabase(command);
         }
 
         public List<Product> GetVegetarianProducts()
@@ -153,7 +175,7 @@ namespace Project
                 CommandType = CommandType.StoredProcedure
             };
 
-            return Helpers.GetProductsFromDatabase(command);
+            return GetProductsFromDatabase(command);
         }
 
         public List<Product> GetVegetarianProductsInCategory(Category category)
@@ -165,7 +187,7 @@ namespace Project
 
             command.Parameters.Add("@categoryID", SqlDbType.Int).Value = category.ID;
 
-            return Helpers.GetProductsFromDatabase(command);
+            return GetProductsFromDatabase(command);
         }
         public List<Product> GetProductByPrice(decimal priceMin = 0,
             decimal priceMax = 922337203685477.5807m // SqlMoney.MaxValue
@@ -180,7 +202,7 @@ namespace Project
             command.Parameters.Add("@priceMax", SqlDbType.Money).Value = priceMax;
 
 
-            return Helpers.GetProductsFromDatabase(command);
+            return GetProductsFromDatabase(command);
         }
 
         public List<Product> GetProductByPriceInCategory(Category category, decimal priceMin = 0,
@@ -196,7 +218,7 @@ namespace Project
             command.Parameters.Add("@priceMin", SqlDbType.Money).Value = priceMin;
             command.Parameters.Add("@priceMax", SqlDbType.Money).Value = priceMax;
 
-            return Helpers.GetProductsFromDatabase(command);
+            return GetProductsFromDatabase(command);
         }
 
         public void AddCategory(string categoryName)
