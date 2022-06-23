@@ -20,24 +20,11 @@ RETURN(
 );
 GO
 
-
-/* funkcja zwracająca wszystkie kategorie */
-CREATE FUNCTION dbo.allCategories(@xml xml(MenuSchema))
-RETURNS TABLE 
-AS
-RETURN (
-	SELECT
-	categoryCol.value('./@id', 'int') as categoryID,
-	categoryCol.value('./@name', 'nvarchar(100)') as categoryName
-	FROM  @xml.nodes('/Menu/Category') catTable(categoryCol)
-);
-GO
-
 /* Procedura zwracająca wszystkie produkty */
 CREATE PROCEDURE dbo.getAllProducts AS 
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1 menuXML FROM dbo.ProjectXML);
 	SELECT * FROM dbo.getAllProductsWithCategories(@xml);
 END;
 GO
@@ -46,7 +33,7 @@ GO
 CREATE PROCEDURE dbo.getAllCategories AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1 menuXML FROM dbo.ProjectXML);
 	SELECT
 	categoryCol.value('./@id', 'int') as categoryID,
 	categoryCol.value('./@name', 'nvarchar(100)') as categoryName
@@ -58,7 +45,7 @@ GO
 CREATE PROCEDURE dbo.getProductsFromCategory(@categoryID int) AS 
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1 menuXML FROM dbo.ProjectXML);
 	SELECT * FROM dbo.getAllProductsWithCategories(@xml)
 	WHERE categoryID = @categoryID;
 END;
@@ -67,6 +54,8 @@ GO
 /* Wszystkie węzly z kategoriami */
 CREATE PROCEDURE dbo.categoriesTable AS
 BEGIN
+	DECLARE @xml xml(MenuSchema);
+	SET @xml = (SELECT TOP 1 menuXML FROM dbo.ProjectXML);
 	SELECT col.value('./@id', 'int') as categoryID, col.query('.') AS categories 
 	FROM  @xml.nodes('/Menu/Category') T(col);
 END;
@@ -76,7 +65,7 @@ GO
 CREATE PROCEDURE dbo.productsTable AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1 menuXML FROM dbo.ProjectXML);
 	SELECT col.value('./@id', 'int') as productID, col.query('.') AS Products  
 	FROM  @xml.nodes('/Menu/Category/Product') T(col)
 END;
@@ -87,7 +76,7 @@ CREATE PROCEDURE dbo.getProductXMLByID(@id int, @prodXML xml out) AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
 	DECLARE @tempResult TABLE (productID int, productXML xml);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1 menuXML FROM dbo.ProjectXML);
 
 	INSERT INTO @tempResult 
 	SELECT col.value('./@id', 'int') as prodID, col.query('.') AS prod  
@@ -116,7 +105,7 @@ GO
 CREATE PROCEDURE dbo.getProductByID(@id int) AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 	SELECT * from dbo.getAllProductsWithCategories(@xml)
 	WHERE productID = @id;
 END
@@ -139,7 +128,7 @@ GO
 CREATE PROCEDURE dbo.getProductByName(@name nvarchar(max)) AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 	SELECT * from dbo.getAllProductsWithCategories(@xml)
 	WHERE LOWER(name) like @name;
 END;
@@ -149,7 +138,7 @@ GO
 CREATE PROCEDURE dbo.getVegetarianProducts AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 	SELECT * from dbo.getAllProductsWithCategories(@xml)
 	WHERE vegetarian = 1;
 END;
@@ -159,7 +148,7 @@ GO
 CREATE PROCEDURE dbo.getVegetarianProductsInCategory(@categoryID int) AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1 menuXML FROM dbo.ProjectXML);
 	SELECT * from dbo.getAllProductsWithCategories(@xml)
 	WHERE vegetarian = 1 AND categoryID = @categoryID;
 END;
@@ -169,7 +158,7 @@ GO
 CREATE PROCEDURE dbo.getProductByPrice(@priceMin money, @priceMax money) AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 	IF (@priceMIN IS NOT NULL AND @priceMax IS NOT NULL)
 		SELECT * from dbo.getAllProductsWithCategories(@xml)
 		WHERE 
@@ -190,7 +179,7 @@ GO
 CREATE PROCEDURE dbo.getProductByPriceInCategory(@categoryID int, @priceMin money, @priceMax money) AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 	IF (@priceMIN IS NOT NULL AND @priceMax IS NOT NULL)
 		SELECT * from dbo.getAllProductsWithCategories(@xml)
 		WHERE 
@@ -214,7 +203,7 @@ GO
 CREATE PROCEDURE dbo.addCategory(@categoryName nvarchar(100)) AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 	DECLARE @newID int;
 	SET @newID = (SELECT max(categoryID)+1 from dbo.getAllProductsWithCategories(@xml));
 
@@ -237,7 +226,7 @@ GO
 CREATE PROCEDURE dbo.addProduct(@categoryID int, @prodName nvarchar(max), @priceMedium money, @vegetarian bit) AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 	DECLARE @newID int;
 	SET @newID = (SELECT max(productID)+1 from dbo.getAllProductsWithCategories(@xml));
 
@@ -270,7 +259,7 @@ GO
 CREATE PROCEDURE dbo.addPriceSmall(@productID int, @priceSmall money) AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 	
 	DECLARE @existingPriceSmall money;
 	SET @existingPriceSmall = (SELECT priceSmall
@@ -304,7 +293,7 @@ GO
 CREATE PROCEDURE dbo.addPriceLarge(@productID int, @priceLarge money) AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 	
 	DECLARE @existingPriceLarge money;
 	SET @existingPriceLarge = (SELECT priceLarge
@@ -334,7 +323,7 @@ CREATE PROCEDURE dbo.modifyCategoryName(@newName nvarchar(100), @categoryID int)
 AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 
 	UPDATE projXML 
 	SET menuXML.modify(N'replace value of 
@@ -348,7 +337,7 @@ CREATE PROCEDURE dbo.modifyProductName(@newName nvarchar(max), @productID int)
 AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 
 	DECLARE @oldName nvarchar(max);
 	SET @oldName = (SELECT name from dbo.getAllProductsWithCategories(@xml) WHERE productID = @productID);
@@ -364,7 +353,7 @@ CREATE PROCEDURE dbo.modifyProductPriceSmall(@newPriceSmall money, @productID in
 AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 
 	DECLARE @priceMedium money;
 	SET @priceMedium = (SELECT priceMedium from dbo.getAllProductsWithCategories(@xml) WHERE productID = @productID);
@@ -384,7 +373,7 @@ CREATE PROCEDURE dbo.modifyProductPriceMedium(@newPriceMedium money, @productID 
 AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 
 	DECLARE @priceSmall money, @priceLarge money;
 	SELECT @priceSmall = (priceSmall), @priceLarge = (priceLarge) from dbo.getAllProductsWithCategories(@xml) WHERE productID = @productID;
@@ -411,7 +400,7 @@ CREATE PROCEDURE dbo.modifyProductPriceLarge(@newPriceLarge money, @productID in
 AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
+	SET @xml = (SELECT TOP 1  menuXML FROM dbo.ProjectXML);
 
 	DECLARE @priceMedium money;
 	SET @priceMedium = (SELECT priceMedium from dbo.getAllProductsWithCategories(@xml) WHERE productID = @productID);

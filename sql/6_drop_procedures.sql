@@ -58,9 +58,6 @@ GO
 DROP PROCEDURE dbo.getProductByName;
 GO
 
-DROP PROCEDURE dbo.getProductsFromCategoryByCategoryID
-GO
-
 DROP PROCEDURE dbo.getCategoryByID;
 GO
 
@@ -88,11 +85,6 @@ GO
 DROP PROCEDURE dbo.getAllProducts;
 GO
 
-DROP FUNCTION dbo.allCategories;
-GO
-
 DROP FUNCTION dbo.getAllProductsWithCategories;
 GO
 
-DROP PROCEDURE dbo.insertDefaultData;
-GO
