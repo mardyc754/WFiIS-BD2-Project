@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Klasa pomocnicza posiadająca metody rysujące konsolową tabelkę
+// Pobrano ze strony: https://github.com/khalidabuhakmeh/ConsoleTables
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
