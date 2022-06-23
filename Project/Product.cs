@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project
 {
-    class Product
+    public class Product
     {
         int productID;
         string name;
@@ -59,11 +59,6 @@ namespace Project
 
         public override string ToString()
         {
-            //string isVegetarian = this.vegetarian != null ? this.vegetarian.ToString() : "Nie dotyczy";
-            //string priceSmallInfo = this.priceSmall != null ? this.priceSmall.ToString() : "Brak";
-            //string priceLargeInfo = this.priceLarge != null ? this.priceLarge.ToString() : "Brak";
-
-
             return string.Format("{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7}",
                 this.productID, this.name, 
                 this.vegetarian, 
@@ -74,7 +69,7 @@ namespace Project
         }
     }
 
-    class Category
+    public class Category
     {
         private int categoryID;
         private string name;

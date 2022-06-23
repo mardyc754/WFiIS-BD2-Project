@@ -10,7 +10,7 @@ using System.Data;
 
 namespace Project
 {
-    class Restaurant
+    public class Restaurant
     {
         private SqlConnection connection = null;
 
@@ -21,55 +21,15 @@ namespace Project
             connection.Open();
         }
 
-
-        public List<Category> GetAllCategories()
+        public void InsertDefaultData()
         {
-            SqlCommand command = new SqlCommand("getAllCategories", connection)
+            SqlCommand command = new SqlCommand("insertDefaultData", connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
 
-            using (SqlDataReader result = command.ExecuteReader())
-            {
-
-                try
-                {
-                    List<Category> categoriesList = new List<Category>();
-                    while (result.Read())
-                    {
-                        categoriesList.Add(new Category((int)result["categoryID"], (string)result["categoryName"]));
-                    }
-                    return categoriesList;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    return null;
-                }
-
-            };
+            command.ExecuteNonQuery();
         }
-
-        public List<Product> GetAllProducts()
-        {
-            SqlCommand command = new SqlCommand("getAllProducts", connection)
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-
-            return Helpers.GetProductsFromDatabase(command);
-        }
-
-        public List<Product> GetProductsFromCategory()
-        {
-            SqlCommand command = new SqlCommand("", connection)
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-
-            return Helpers.GetProductsFromDatabase(command);
-        }
-
         public Product GetProductByID(int productId)
         {
             SqlCommand getProductByIDCommand = new SqlCommand("getProductByID", connection)
@@ -123,6 +83,45 @@ namespace Project
             };
         }
 
+        public List<Category> GetAllCategories()
+        {
+            SqlCommand command = new SqlCommand("getAllCategories", connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            using (SqlDataReader result = command.ExecuteReader())
+            {
+
+                try
+                {
+                    List<Category> categoriesList = new List<Category>();
+                    while (result.Read())
+                    {
+                        categoriesList.Add(new Category((int)result["categoryID"], (string)result["categoryName"]));
+                    }
+                    return categoriesList;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return null;
+                }
+
+            };
+        }
+
+        public List<Product> GetAllProducts()
+        {
+            SqlCommand command = new SqlCommand("getAllProducts", connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            return Helpers.GetProductsFromDatabase(command);
+        }
+
+
         public List<Product> GetProductsFromCategory(Category category)
         {
             SqlCommand command = new SqlCommand("getProductsFromCategory", connection)
@@ -134,19 +133,6 @@ namespace Project
 
             return Helpers.GetProductsFromDatabase(command);
         }
-
-        public List<Product> GetProductsFromCategoryByCategoryName(string categoryName)
-        {
-            SqlCommand command = new SqlCommand("getProductsFromCategoryByCategoryName", connection)
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-
-            command.Parameters.Add("@name", SqlDbType.NVarChar).Value = categoryName + '%';
-
-            return Helpers.GetProductsFromDatabase(command);
-        }
-
 
         public List<Product> GetProductsByName(string productName)
         {
@@ -197,8 +183,8 @@ namespace Project
             return Helpers.GetProductsFromDatabase(command);
         }
 
-        public List<Product> GetProductByPriceInCategory(Category category, decimal priceMin,
-            decimal priceMax // SqlMoney.MaxValue
+        public List<Product> GetProductByPriceInCategory(Category category, decimal priceMin = 0,
+            decimal priceMax = 922337203685477.5807m // SqlMoney.MaxValue
             )
         {
             SqlCommand command = new SqlCommand("getProductByPriceInCategory", connection)

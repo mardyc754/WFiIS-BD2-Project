@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project
 {
-    class Price
+    public class Price
     {
         string type;
         decimal value;
@@ -29,7 +29,7 @@ namespace Project
         }
     }
 
-    class Vegetarian
+    public class Vegetarian
     {
         bool isVegetarian;
 

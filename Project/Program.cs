@@ -8,7 +8,7 @@ namespace Project
     {
         static void Main(string[] args)
         {
-            RestaurantHandler restaurantHandler = new RestaurantHandler();
+            RestaurantView restaurantHandler = new RestaurantView();
 
             restaurantHandler.MainMenu();
 

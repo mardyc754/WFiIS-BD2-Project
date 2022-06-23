@@ -10,11 +10,11 @@ using System.Data.SqlTypes;
 
 namespace Project
 {
-    class RestaurantHandler
+    class RestaurantView
     {
         private Restaurant restaurant;
 
-        public RestaurantHandler()
+        public RestaurantView()
         {
             restaurant = new Restaurant();
         }
@@ -30,6 +30,7 @@ namespace Project
                 Console.WriteLine("3. Usuń kategorię");
                 Console.WriteLine("4. Wybierz produkt");
                 Console.WriteLine("5. Przeszukuj menu o podanych parametrach");
+                Console.WriteLine("6. Wyczyść menu");
                 Console.WriteLine("q. Wyjście z programu");
                 string key = Console.ReadLine().ToLower();
 
@@ -50,6 +51,9 @@ namespace Project
                     case "5":
                         SearchInMenu();
                         break;
+                    case "6":
+                        ClearMenu();
+                        break;
                     case "q":
                         Environment.Exit(0);
                         break;
@@ -57,7 +61,7 @@ namespace Project
             }
         }
 
-        public void ChooseCategory()
+        private void ChooseCategory()
         {
             string choice = "";
 
@@ -90,7 +94,7 @@ namespace Project
             }
         }
 
-        public void AddCategory()
+        private void AddCategory()
         {
             Console.Clear();
             string newName = "";
@@ -118,7 +122,7 @@ namespace Project
             }
         }
 
-        public void SearchInMenu()
+        private void SearchInMenu()
         {
             string choice = "";
             while (choice != "r")
@@ -160,7 +164,7 @@ namespace Project
                 }
             }
         }
-        public void DeleteCategory()
+        private void DeleteCategory()
         {
             string choice = "";
 
@@ -194,7 +198,7 @@ namespace Project
             }
         }
 
-        public void CategorySubmenu(Category category)
+        private void CategorySubmenu(Category category)
         {
             string choice = "";
 
@@ -247,7 +251,7 @@ namespace Project
             }
         }
 
-        public void ChooseProduct(Category category = null)
+        private void ChooseProduct(Category category = null)
         {
             string choice = "";
 
@@ -279,7 +283,7 @@ namespace Project
             }
         }
 
-        public void ProductSubmenu(Product product)
+        private void ProductSubmenu(Product product)
         {
             string choice = "";
 
@@ -590,6 +594,24 @@ namespace Project
             }
             Helpers.WaitForReturnToPreviousMenu();
 
+        }
+
+        private void ClearMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Czy na pewno chcesz wyczyścić całe menu?");
+            Console.WriteLine("1. Tak");
+            Console.WriteLine("2. Nie");
+
+            string choice = Console.ReadLine();
+
+            if (choice == "1")
+            {
+                restaurant.DeleteMenu();
+                Console.WriteLine("Pomyślnie wyczyszczono menu");
+                Helpers.WaitForReturnToPreviousMenu();
+            }
+            
         }
     }
 }

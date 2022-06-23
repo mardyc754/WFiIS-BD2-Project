@@ -26,13 +26,10 @@ CREATE FUNCTION dbo.allCategories(@xml xml(MenuSchema))
 RETURNS TABLE 
 AS
 RETURN (
-	SELECT categoryID, categoryName, ROW_NUMBER() over (order by categoryID) as rowNumber from 
-	(
-		SELECT
-		categoryCol.value('./@id', 'int') as categoryID,
-		categoryCol.value('./@name', 'nvarchar(100)') as categoryName
-		FROM  @xml.nodes('/Menu/Category') catTable(categoryCol)
-	) s
+	SELECT
+	categoryCol.value('./@id', 'int') as categoryID,
+	categoryCol.value('./@name', 'nvarchar(100)') as categoryName
+	FROM  @xml.nodes('/Menu/Category') catTable(categoryCol)
 );
 GO
 
@@ -50,13 +47,10 @@ CREATE PROCEDURE dbo.getAllCategories AS
 BEGIN
 	DECLARE @xml xml(MenuSchema);
 	SET @xml = (SELECT * FROM dbo.ProjectXML);
-	SELECT categoryID, categoryName, ROW_NUMBER() over (order by categoryID) as rowNumber from 
-	(
-		SELECT
-		categoryCol.value('./@id', 'int') as categoryID,
-		categoryCol.value('./@name', 'nvarchar(100)') as categoryName
-		FROM  @xml.nodes('/Menu/Category') catTable(categoryCol)
-	) s;
+	SELECT
+	categoryCol.value('./@id', 'int') as categoryID,
+	categoryCol.value('./@name', 'nvarchar(100)') as categoryName
+	FROM  @xml.nodes('/Menu/Category') catTable(categoryCol)
 END;
 GO
 
@@ -138,16 +132,6 @@ BEGIN
 	col.value('./@id', 'int') as categoryID, 
 	col.value('./@name', 'nvarchar(100)') as Name 
 	FROM  @categoryXML.nodes('./Category') T(col);
-END
-GO
-
-/* Zwraca dane produktow z wybranej kategorii po nazwie pasujacej do wzorca */
-CREATE PROCEDURE dbo.getProductsFromCategoryByCategoryName(@name nvarchar(100)) AS
-BEGIN
-	DECLARE @xml xml(MenuSchema);
-	SET @xml = (SELECT * FROM dbo.ProjectXML);
-	SELECT * from dbo.getAllProductsWithCategories(@xml)
-	WHERE categoryName like @name;
 END
 GO
 
