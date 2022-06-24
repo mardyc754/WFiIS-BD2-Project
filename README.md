@@ -37,17 +37,15 @@ na nazwę lokalnego serwera.
 
 ## 3. Wykorzystane technologie
 
-Program został napisany w języku C# po stronie aplikacji konsolowej, zaś do zarządzania bazą danych wykorzystano Microsoft SQL Server. Jako interfejs będący pośrednikiem między bazą danych a API wykorzystano ADO.NET.
+Program został napisany w języku C# po stronie aplikacji konsolowej, zaś do zarządzania bazą danych wykorzystano Microsoft SQL Server. Interfejsem będącym pośrednikiem między bazą danych a API został ADO.NET.
 
-Do napisania programu wykorzystano program Visual Studio 2019 w części projektu wykorzystującej C# oraz Microsoft SQL Server Management Studio 18 po stronie bazy danych.
-
-W projekcie zostal użyty Microsoft .NET Framework w wersji 4.7.2.
+Do napisania API w języku C# wykorzystano program Visual Studio 2019 oraz Microsoft .NET Framework w wersji 4.7.2. Po stronie bazy danych posłużono się programem Microsoft SQL Server Management Studio 18.
 
 ## 4. Struktura projektu
 
 ### 4.1. Baza danych
 
-Baza danych projektu `Project` składa się z jednej tabeli - `ProjectXML`. Tabela ta posiada tylko jeden rekord i jedną kolumnę (`menuXML`), w którym znajduje się XML zawierający menu restauracji.
+Baza danych projektu `Project` składa się z jednej tabeli - `ProjectXML`. Tabela ta posiada tylko jedną kolumnę (`menuXML`) z jednym rekordem, w którym znajduje się XML zawierający menu restauracji.
 
 Wszelkie operacje wykonywane za pomocą API, modyfikują jedyny XML znajdujący się w tabeli `ProjectXML`.
 
@@ -318,7 +316,7 @@ Do utworzenia testów wykorzystano bibliotekę Microsoft Visual Studio Unit Test
 
 ## 8. Podsumowanie
 
-Zapisywanie danych w formacie XML bardzo często ułatwia komunikację z bazą danych. Zamiast dokonywać zapytania do kilku tabel powiązanych relacją, można wykonywać zapytania do jednego dokumentu XML. Dlatego też format XML jest obok formatu JSON jednym z najczęściej używanych formatów w dokumentacyjnych bazach danych.
+Zapisywanie danych w formacie XML bardzo często ułatwia komunikację z bazą danych. Zamiast podawać zapytanie do kilku tabel powiązanych relacją, można wykonywać zapytania do jednego dokumentu XML. Dlatego też format XML jest obok formatu JSON jednym z najczęściej używanych formatów w dokumentacyjnych bazach danych.
 
 Jednakże przechowywanie danych w formacie XML ma też swoje wady - kiedy dokument jest zbyt długi, szybkość wykonywania na nim poszczególnych operacji spada i staje się gorsza niż w przypadku relacyjnych baz danych. Dlatego też format XML przydaje się przy przetwarzaniu niewielkiej porcji danych, dzięki 
 czemu można zredukować liczbę zapytań do bazy danych.
