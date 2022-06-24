@@ -30,7 +30,7 @@ namespace Project
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("----- Symulator restauracji - program do przetwarzania danych XML ----");
+                Console.WriteLine("----- Menu restauracji - program do przetwarzania danych XML ----");
                 Console.WriteLine("1. Wybierz kategorię");
                 Console.WriteLine("2. Dodaj kategorię");
                 Console.WriteLine("3. Usuń kategorię");
