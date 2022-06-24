@@ -15,7 +15,7 @@ namespace Project
 
         public Restaurant()
         {
-            string connStr = @"Data Source=X240\SQLEXPRESS;Initial Catalog = Project;Integrated Security = True;";
+            string connStr = @"Data Source=******;Initial Catalog = Project;Integrated Security = True;";
             connection = new SqlConnection(connStr);
             connection.Open();
         }
