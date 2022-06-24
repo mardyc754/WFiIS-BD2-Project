@@ -300,7 +300,7 @@ Po uruchomieniu aplikacji pojawia się menu główne, z poziomu którego można 
 
 <img src="docs/main_menu.png" />
 
-Po wybraniu kategorii pojawia się podmenu kategorii, z którego można zarządzać produktami w danej kategorii:
+Po wybraniu kategorii pojawia się podmenu, z którego można zarządzać produktami w danej kategorii:
 
 <img src="docs/category_submenu.png" />
 
@@ -320,9 +320,11 @@ Do utworzenia testów wykorzystano bibliotekę Microsoft Visual Studio Unit Test
 
 Zapisywanie danych w formacie XML bardzo często ułatwia komunikację z bazą danych. Zamiast dokonywać zapytania do kilku tabel powiązanych relacją, można wykonywać zapytania do jednego dokumentu XML. Dlatego też format XML jest obok formatu JSON jednym z najczęściej używanych formatów w dokumentacyjnych bazach danych.
 
-Jednakże przechowywanie danych w formacie XML ma też swoje wady - kiedy dokument jest zbyt długi, szybkość wykonywania na nim poszczególnych operacji spada i staje się gorsza niż w przypadku relacyjnych baz danych. Dlatego też format XML przydaje się przy przetwarzaniu niewielkiej porcji danych, dzięki czemu można zredukować liczbę zapytań do bazy danych.
+Jednakże przechowywanie danych w formacie XML ma też swoje wady - kiedy dokument jest zbyt długi, szybkość wykonywania na nim poszczególnych operacji spada i staje się gorsza niż w przypadku relacyjnych baz danych. Dlatego też format XML przydaje się przy przetwarzaniu niewielkiej porcji danych, dzięki 
+czemu można zredukować liczbę zapytań do bazy danych.
 
 ## 9. Źródła
+
 - https://github.com/khalidabuhakmeh/ConsoleTables
 - https://www.sqlshack.com/working-with-xml-data-in-sql-server/
 - https://docs.microsoft.com/pl-pl/sql/relational-databases/xml/xml-data-sql-server?view=sql-server-ver15
